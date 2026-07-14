@@ -1,26 +1,28 @@
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from 'react';
+    export const API_URL = import.meta.env.VITE_API_URL;
 function Home() {
     const navigate = useNavigate();
     const [questions, setQuestions] = useState([]);
     const [users, setUsers] = useState([]);
     const [answers, setAnswers] = useState([]);
     const [categories, setCategories] = useState([]);
+
     useEffect(() => {
-        axios.get("http://localhost:5000/questions")
+      axios.get(`${API_URL}/questions`)
             .then(res => setQuestions(res.data))
     }, []);
     useEffect(() => {
-        axios.get("http://localhost:5000/answers")
+        axios.get(`${API_URL}/answers`)
             .then(res => setAnswers(res.data))
     }, []);
     useEffect(() => {
-        axios.get("http://localhost:5000/users")
+        axios.get(`${API_URL}/users`)
             .then(res => setUsers(res.data))
     }, []);
     useEffect(() => {
-        axios.get("http://localhost:5000/categories")
+        axios.get(`${API_URL}/categories`)
             .then(res => setCategories(res.data))
     }, []);
     return (

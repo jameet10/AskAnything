@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {jwtDecode} from "jwt-decode";
+ export const API_URL = import.meta.env.VITE_API_URL;
 function Questions()
 {
   const token = localStorage.getItem("token");
@@ -13,7 +14,7 @@ function Questions()
   });
     const [message, setMessage] = useState("");
   useEffect(() => {
-    fetch("http://localhost:5000/categories")
+    fetch(`${API_URL}/categories`)
       .then((res) => res.json())
       .then((data) => setCategories(data))
       .catch((err) => console.log(err));
@@ -28,7 +29,7 @@ function Questions()
    const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:5000/api/questions", {
+      const response = await fetch(`${API_URL}/api/questions`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 import {jwtDecode} from "jwt-decode";
 import axios from 'axios';
+    export const API_URL = import.meta.env.VITE_API_URL;
 function Profile()
 {
     const [questions, setQuestions] = useState([]);
-     useEffect(() => {
-        axios.get("http://localhost:5000/questions")
+    const [answers, setAnswers] = useState([]);
+      useEffect(() => {
+      axios.get(`${API_URL}/questions`)
             .then(res => setQuestions(res.data))
     }, []);
-    const [answers, setAnswers] = useState([]);
     useEffect(() => {
-        axios.get("http://localhost:5000/answers")
+        axios.get(`${API_URL}/answers`)
             .then(res => setAnswers(res.data))
     }, []);
   const token = localStorage.getItem("token");
@@ -19,7 +20,7 @@ const loggedInUserId = user?.id;
   //const loggedInUserId = 46;
    const [users, setUsers] = useState([]);
 useEffect(() => {
-    fetch(`http://localhost:5000/api/my-posts?userId=${loggedInUserId}`)
+    fetch(`${API_URL}/api/my-posts?userId=${loggedInUserId}`)
         .then(res => res.json())
         .then(data => setUsers(data))
         .catch(err => console.log(err));

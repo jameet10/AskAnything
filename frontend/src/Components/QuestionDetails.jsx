@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useState ,useEffect } from "react";
 import axios from 'axios';
 import {jwtDecode} from "jwt-decode";
+export const API_URL = import.meta.env.VITE_API_URL;
 function QuestionDetails()
 {
      const [users, setUsers] = useState([]);
@@ -16,21 +17,19 @@ function QuestionDetails()
   });   
     const { id } = useParams();
  useEffect(() => {
-    fetch(`http://localhost:5000/questions/${id}`)
+    fetch(`${API_URL}/questions/${id}`)
         .then(res => res.json())
-        .then(data => {
-            console.log(data);
-            setQuestions(data);
+        .then(data => { setQuestions(data);
         });
 }, [id]);
        const [answers, setAnswers] = useState([]);
        useEffect(() => {
-    fetch(`http://localhost:5000/questions/${id}/answers`)
+    fetch(`${API_URL}/questions/${id}/answers`)
         .then(res => res.json())
         .then(data => setAnswers(data));
 }, [id]);
 useEffect(() => {
-    fetch("http://localhost:5000/users")
+    fetch(`${API_URL}/users`)
         .then(res => res.json())
         .then(data => setUsers(data));
 }, []);
@@ -45,7 +44,7 @@ const handleSubmit = async (e) => {
 
     try {
         const response = await fetch(
-            "http://localhost:5000/api/answers",
+            `${API_URL}/api/answers`,
             {
                 method: "POST",
                 headers: {
@@ -71,7 +70,7 @@ const handleSubmit = async (e) => {
         });
 
         // Reload answers
-        fetch(`http://localhost:5000/questions/${id}/answers`)
+        fetch(`${API_URL}/questions/${id}/answers`)
             .then(res => res.json())
             .then(data => setAnswers(data));
 
@@ -82,14 +81,14 @@ const handleSubmit = async (e) => {
   const handleDelete = async (answerId) => {
     try {
         const response = await fetch(
-            `http://localhost:5000/api/answers/${answerId}`,
+            `${API_URL}/api/answers/${answerId}`,
             {
                 method: "DELETE",
             }
         );
         const data = await response.json();
         alert(data.message);
-        fetch(`http://localhost:5000/questions/${id}/answers`)
+        fetch(`${API_URL}/questions/${id}/answers`)
             .then(res => res.json())
             .then(data => setAnswers(data));
     }

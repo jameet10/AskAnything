@@ -1,6 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useState ,useEffect } from "react";
 import axios from 'axios';
+export const API_URL = import.meta.env.VITE_API_URL;
+
 function Categories()
 {
      const [questions, setQuestions] = useState([]);
@@ -8,25 +10,25 @@ function Categories()
     const [answers, setAnswers] = useState([]);
     const [categories, setCategories] = useState([]);
     useEffect(() => {
-        axios.get("http://localhost:5000/questions")
+      axios.get(`${API_URL}/questions`)
             .then(res => setQuestions(res.data))
     }, []);
     useEffect(() => {
-        axios.get("http://localhost:5000/answers")
+        axios.get(`${API_URL}/answers`)
             .then(res => setAnswers(res.data))
     }, []);
     useEffect(() => {
-        axios.get("http://localhost:5000/users")
+        axios.get(`${API_URL}/users`)
             .then(res => setUsers(res.data))
     }, []);
     useEffect(() => {
-        axios.get("http://localhost:5000/categories")
+        axios.get(`${API_URL}/categories`)
             .then(res => setCategories(res.data))
     }, []);
     const { id } = useParams();
 
     useEffect(() => {
-    fetch(`http://localhost:5000/categories/${id}`)
+    fetch(`${API_URL}/categories/${id}`)
         .then(res => res.json())
         .then(data => setQuestions(data));
 }, [id]);
@@ -79,7 +81,7 @@ return (
                                                 </p>
                                             )
                                         }
-                                        <span class="badge bg-primary h-25 mt-1">{category?.name}</span>
+                                        <span className="badge bg-primary h-25 mt-1">{category?.name}</span>
                                     </div>
                                 </div>
                             );

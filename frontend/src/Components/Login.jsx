@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+export const API_URL = import.meta.env.VITE_API_URL;
 function Login() {
   const [formData, setFormData] = useState({
     email: "",
@@ -13,9 +14,8 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const response = await fetch("http://localhost:5000/api/login/users", {
+      const response = await fetch(`${API_URL}/api/login/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -26,8 +26,6 @@ function Login() {
         }),
       });
       const data = await response.json();
-      console.log("Login response:", data);
-
       if (data.token) {
         localStorage.setItem("token", data.token);
         setMessage("Login successful!");

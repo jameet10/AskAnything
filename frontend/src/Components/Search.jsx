@@ -1,33 +1,35 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
+export const API_URL = import.meta.env.VITE_API_URL;
 function Search()
 {
 const [questions, setQuestions] = useState([]);
 const { query } = useParams();
    useEffect(() => {
-    fetch(`http://localhost:5000/api/search?query=${query}`)
+    fetch(`${API_URL}/api/search?query=${query}`)
         .then(res => res.json())
         .then(data => setQuestions(data));
 }, [query]);
-console.log(query);
+
     const [users, setUsers] = useState([]);
     const [answers, setAnswers] = useState([]);
     const [categories, setCategories] = useState([]);
+
     useEffect(() => {
-        axios.get("http://localhost:5000/questions")
+      axios.get(`${API_URL}/questions`)
             .then(res => setQuestions(res.data))
     }, []);
     useEffect(() => {
-        axios.get("http://localhost:5000/answers")
+        axios.get(`${API_URL}/answers`)
             .then(res => setAnswers(res.data))
     }, []);
     useEffect(() => {
-        axios.get("http://localhost:5000/users")
+        axios.get(`${API_URL}/users`)
             .then(res => setUsers(res.data))
     }, []);
     useEffect(() => {
-        axios.get("http://localhost:5000/categories")
+        axios.get(`${API_URL}/categories`)
             .then(res => setCategories(res.data))
     }, []);
     return (
@@ -79,7 +81,7 @@ console.log(query);
                                                 </p>
                                             )
                                         }
-                                        <span class="badge bg-primary h-25 mt-1">{category?.name}</span>
+                                        <span className="badge bg-primary h-25 mt-1">{category?.name}</span>
                                     </div>
                                 </div>
                             );
